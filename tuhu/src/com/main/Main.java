@@ -1,21 +1,13 @@
 package com.main;
 
-import com.domain.*;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.service.GetBaoYangList;
-import com.util.*;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import com.domain.Brand;
+import com.domain.Car;
+import com.service.GetBrand;
+import com.service.SelectCarName;
+import com.service.SelectPaiLiang;
+import com.service.SelectYear;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -29,7 +21,7 @@ public class Main {
 //        String nian="2011";
 //        String tid="";
         long st=System.currentTimeMillis();
-        Car car=new Car();
+/*        Car car=new Car();
         car.setBrand("F - 丰田");
         car.setBrand1("丰田");
         car.setBrand2("一汽丰田");
@@ -40,18 +32,36 @@ public class Main {
         car.setCarModel("");
         car.setTid("");
         car.setProperty("");
-        car.setPropertyValue("");
-        PJ pj= GetBaoyangItem.getBaoyangItem(car);
-        PraseProductDetail.praseAllItem(pj.getCarPJList());
-        List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
-        pj.setCarPjDetailList(list);
-        WriteExcel.writeDataToExcel(pj);
+        car.setPropertyValue("");*/
+//        PJ pj= GetBaoyangItem.getBaoyangItem(car);
+//        PraseProductDetail.praseAllItem(pj.getCarPJList());
+//        List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
+//        pj.setCarPjDetailList(list);
+//        WriteExcel.writeDataToExcel(pj);
         System.out.println("数据成功写入excel！");
-        GetImage.getImgData(list);
+//        GetImage.getImgData(list);
         System.out.println("商品图片抓取完毕！！");
         long ed=System.currentTimeMillis();
         System.out.println("整个过程耗时："+(ed-st)/1000+"秒");
 
+        //TODO test
+        for(String oneBrand:GetBrand.BrandList()){
+           List<Brand> brandList=SelectCarName.CarNameList(oneBrand);
+            for(Brand brand:brandList){
+                List<String> paiLiangList=SelectPaiLiang.PaiLiangList(brand.getProductID());
+                for(String paiLiang:paiLiangList){
+                    List<String> yearList=SelectYear.YearList(brand.getProductID(),paiLiang);
+                    for(String year:yearList){
+                        Car car=new Car();
+                        car.setBrand(oneBrand);
+                        car.setBrand(brand.getBrandType());
+                       String s=oneBrand.trim().split("-")[1];
+                        System.out.println(s);
+                    }
+                }
+            }
+
+        }
     }
 
 

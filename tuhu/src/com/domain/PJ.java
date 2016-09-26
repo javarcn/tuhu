@@ -7,9 +7,9 @@ import java.util.List;
  * Created by hwc on 2016/9/19.
  */
 public class PJ {
-    private List<CarPJ> carPJList =new ArrayList<>();
-    private List<CarPJDetail> carPjDetailList =new ArrayList<>();
-    private List<String> urlList=new ArrayList<>();
+    private List<CarPJ> carPJList =new ArrayList<CarPJ>();
+    private List<CarPJDetail> carPjDetailList =new ArrayList<CarPJDetail>();
+    private List<String> urlList=new ArrayList<String>();
     private Property Property;
 
     public List<String> getUrlList() {

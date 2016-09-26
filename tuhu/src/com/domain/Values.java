@@ -7,6 +7,15 @@ public class Values {
     private String ImageUrl;
     private String Key;
     private String DisplayValue;
+    private String Value;
+
+    public String getValue() {
+        return Value;
+    }
+
+    public void setValue(String value) {
+        Value = value;
+    }
 
     public String getImageUrl() {
         return ImageUrl;

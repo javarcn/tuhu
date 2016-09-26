@@ -2,8 +2,6 @@ package com.service;
 
 import com.domain.Car;
 import com.util.GetHtmlByUrl;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 
 import java.io.IOException;
@@ -19,7 +17,7 @@ public class GetBaoYangList {
         String url1=String.format(url_after,car.getBrand(),car.getCarID(),car.getPaiLiang(),car.getYear(),car.getTid(),car.getProperty(),car.getPropertyValue());
         //此处需要进行URL编码
         String url2=java.net.URLEncoder.encode(url1,"utf-8");
-        String html=GetHtmlByUrl.getHtml(url_before+url2);
+        String html= GetHtmlByUrl.getHtml(url_before + url2);
         return html;
     }
 }

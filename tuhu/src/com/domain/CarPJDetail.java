@@ -52,9 +52,9 @@ public class CarPJDetail {
     private String img;
     private String skuColor;//产品颜色
     private String skuSize;//产品尺寸
-    private List<String> bigImg=new ArrayList<>();
-    private List<String> detailImg=new ArrayList<>();
-    private List<String> urlList=new ArrayList<>();
+    private List<String> bigImg=new ArrayList<String>();
+    private List<String> detailImg=new ArrayList<String>();
+    private List<String> urlList=new ArrayList<String>();
 
     public List<String> getUrlList() {
         return urlList;

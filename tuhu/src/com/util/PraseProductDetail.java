@@ -16,8 +16,8 @@ import java.util.List;
  * Created by hwc on 2016/9/20.
  */
 public class PraseProductDetail {
-    private static List<String> PidList=new ArrayList<>();//存放唯一的pid
-    private static List<CarPJDetail> carPJDetailList=new ArrayList<>();
+    private static List<String> PidList=new ArrayList<String>();//存放唯一的pid
+    private static List<CarPJDetail> carPJDetailList=new ArrayList<CarPJDetail>();
     private static int num=0;//控制递归结束条件
 
     public static List<CarPJDetail> getCarPJDetailList(){
@@ -142,7 +142,7 @@ public class PraseProductDetail {
 
             //TODO 抓取big img
             Elements images=document.getElementsByClass("images").get(0).children();
-            List<String> bigImg=new ArrayList<>();
+            List<String> bigImg=new ArrayList<String>();
             for(int i=0;i<images.size();i++){
                 bigImg.add(images.get(i).attr("data-src"));
             }
@@ -150,14 +150,14 @@ public class PraseProductDetail {
 
             //TODO 抓取detail img
             Elements description=document.getElementsByClass("description").get(0).getElementsByTag("img");
-            List<String> detailImg=new ArrayList<>();
+            List<String> detailImg=new ArrayList<String>();
             for(int j=1;j<description.size();j++){
                 detailImg.add(description.get(j).attr("src"));
             }
             cd.setDetailImg(detailImg);
             PidList.add(url);
 
-            List<String> urlList=new ArrayList<>();
+            List<String> urlList=new ArrayList<String>();
             //TODO 获取产品颜色列表URL
             Elements category=document.getElementsByClass("category");
             if(category.size()>0){

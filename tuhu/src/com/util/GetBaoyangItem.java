@@ -46,7 +46,7 @@ public class GetBaoyangItem {
         vehicle=String.format(vehicle,carPJ.getCar().getBrand(),carPJ.getCar().getYear(),carPJ.getCar().getPaiLiang(),carPJ.getCar().getProperty(),carPJ.getCar().getPropertyValue(),carPJ.getCar().getTid(),carPJ.getCar().getCarID());
         String url="http://by.tuhu.cn/change/ChangeProduct.html";
 
-        Map<String,String> data=new HashMap<>();
+        Map<String,String> data=new HashMap<String,String>();
         data.put("vehicle",vehicle);
         data.put("baoyangType",carPJ.getBaoYangType());
         data.put("pid",carPJ.getPJ_ID());
@@ -58,7 +58,7 @@ public class GetBaoyangItem {
 
         //TODO 获取数据
         Gson gson=new Gson();
-        List<CarPJ> carPjList=new ArrayList<>();
+        List<CarPJ> carPjList=new ArrayList<CarPJ>();
 
         JsonParser jsonParser=new JsonParser();
         JsonObject jsonObject= (JsonObject) jsonParser.parse(json);
@@ -102,7 +102,7 @@ public class GetBaoyangItem {
         JsonArray jsonArray=gson.fromJson(html,JsonArray.class);
 
         //TODO 配件关系表
-        List<CarPJ> carPjList=new ArrayList<>();
+        List<CarPJ> carPjList=new ArrayList<CarPJ>();
 
         for(int i=0;i<jsonArray.size();i++){
 //            JsonObject jsonObject= (JsonObject) jsonArray.get(i);
