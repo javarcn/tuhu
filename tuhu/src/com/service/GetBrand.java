@@ -4,7 +4,7 @@ import com.domain.Brand;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.util.GetHtmlByUrl;
+import com.util.Httpget;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class GetBrand {
 
     public static List<String> BrandList() throws IOException {
         List<String> list=new ArrayList<String>();
-        String json= GetHtmlByUrl.getHtml("http://item.tuhu.cn/Car/GetCarBrands2");
+        String json= Httpget.getHtml("http://item.tuhu.cn/Car/GetCarBrands2");
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json,JsonObject.class);
         String letter[]={"A","B","C","D","F","G","H","J","K","L","M","N","O","P","Q","R","S","T","W","X","Y","Z"};

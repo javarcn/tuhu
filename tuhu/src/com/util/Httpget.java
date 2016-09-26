@@ -11,7 +11,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-public class GetHtmlByUrl {
+public class Httpget {
 	
 	public static String getHtml(String url) throws IOException{
 		String html=null;

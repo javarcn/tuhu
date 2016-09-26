@@ -4,7 +4,7 @@ import com.domain.Brand;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.util.GetHtmlByUrl;
+import com.util.Httpget;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class SelectCarName {
     public static List<Brand> CarNameList(String brand) throws IOException {
         String url= java.net.URLEncoder.encode(brand,"utf-8");
         List<Brand> list=new ArrayList<Brand>();
-        String json = GetHtmlByUrl.getHtml("http://item.tuhu.cn/Car/SelOneBrand?Brand=" + url);
+        String json = Httpget.getHtml("http://item.tuhu.cn/Car/SelOneBrand?Brand=" + url);
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json, JsonObject.class);
         JsonArray jsonArray= (JsonArray) jsonObject.get("OneBrand");

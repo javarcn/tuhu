@@ -4,7 +4,7 @@ import com.domain.Values;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.util.GetHtmlByUrl;
+import com.util.Httpget;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 public class SelectPaiLiang {
     public static List<String> PaiLiangList(String VehicleID) throws IOException {
         List<String> list=new ArrayList<String>();
-        String json= GetHtmlByUrl.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=" + VehicleID);
+        String json= Httpget.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=" + VehicleID);
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json,JsonObject.class);
         JsonArray jsonArray= (JsonArray) jsonObject.get("PaiLiang");

@@ -4,7 +4,7 @@ import com.domain.Values;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.util.GetHtmlByUrl;
+import com.util.Httpget;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class SelectYear {
 
     public static List<String> YearList(String VehicleID,String PaiLiang) throws IOException {
         List<String> list=new ArrayList<String>();
-        String json= GetHtmlByUrl.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=" + VehicleID + "&PaiLiang=" + PaiLiang);
+        String json= Httpget.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=" + VehicleID + "&PaiLiang=" + PaiLiang);
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json,JsonObject.class);
         JsonArray jsonArray= (JsonArray) jsonObject.get("Nian");
