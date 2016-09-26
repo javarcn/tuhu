@@ -45,18 +45,27 @@ public class Main {
         System.out.println("整个过程耗时："+(ed-st)/1000+"秒");
 
         //TODO test
+        int i=1;
         for(String oneBrand:GetBrand.BrandList()){
            List<Brand> brandList=SelectCarName.CarNameList(oneBrand);
             for(Brand brand:brandList){
                 List<String> paiLiangList=SelectPaiLiang.PaiLiangList(brand.getProductID());
+                if (paiLiangList.size()==0 ||paiLiangList ==null)
+                    break;
                 for(String paiLiang:paiLiangList){
                     List<String> yearList=SelectYear.YearList(brand.getProductID(),paiLiang);
                     for(String year:yearList){
                         Car car=new Car();
                         car.setBrand(oneBrand);
-                        car.setBrand(brand.getBrandType());
-                       String s=oneBrand.trim().split("-")[1];
-                        System.out.println(s);
+                        car.setBrand2(brand.getBrandType());
+                       String brand1=oneBrand.split("-")[1].trim();
+                        car.setBrand1(brand1);
+                        car.setSeriesName(brand.getCarName());
+                        car.setCarID(brand.getProductID());
+                        car.setPaiLiang(paiLiang);
+                        car.setYear(year);
+                        System.out.println(i+car.toString());
+                        i++;
                     }
                 }
             }

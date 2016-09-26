@@ -103,4 +103,21 @@ public class Car {
     public void setCarID(String carID) {
         CarID = carID;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "Brand='" + Brand + '\'' +
+                ", brand1='" + brand1 + '\'' +
+                ", brand2='" + brand2 + '\'' +
+                ", SeriesName='" + SeriesName + '\'' +
+                ", CarModel='" + CarModel + '\'' +
+                ", PaiLiang='" + PaiLiang + '\'' +
+                ", year='" + year + '\'' +
+                ", Tid='" + Tid + '\'' +
+                ", CarID='" + CarID + '\'' +
+                ", Property='" + Property + '\'' +
+                ", PropertyValue='" + PropertyValue + '\'' +
+                '}';
+    }
 }

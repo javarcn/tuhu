@@ -16,6 +16,7 @@ import java.util.List;
 public class GetBrand {
 
     public static List<String> BrandList() throws IOException {
+
         List<String> list=new ArrayList<String>();
         String json= Httpget.getHtml("http://item.tuhu.cn/Car/GetCarBrands2");
         Gson gson=new Gson();
