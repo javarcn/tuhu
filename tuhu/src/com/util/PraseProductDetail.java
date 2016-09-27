@@ -3,6 +3,7 @@ package com.util;
 import com.domain.CarPJ;
 import com.domain.CarPJDetail;
 import com.sun.org.apache.xml.internal.serialize.ElementState;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +17,8 @@ import java.util.List;
  * Created by hwc on 2016/9/20.
  */
 public class PraseProductDetail {
+    public static Logger logger=Logger.getLogger(PraseProductDetail.class);
+
     private static List<String> PidList=new ArrayList<String>();//存放唯一的pid
     private static List<CarPJDetail> carPJDetailList=new ArrayList<CarPJDetail>();
     private static int num=0;//控制递归结束条件
@@ -50,7 +53,22 @@ public class PraseProductDetail {
 
             String urlString="http://item.tuhu.cn/Products/"+url+".html";
             //TODO 获取产品详情页面
-            Document document= Jsoup.connect(urlString).timeout(60000).get();
+            Document document=null;
+            int retryTimes=1;
+            do {
+                try {
+                    document= Jsoup.connect(urlString).timeout(60000).get();
+                    break;
+                }catch (Exception e){
+                    logger.debug("访问出现"+url+"异常,1S后进行第"+retryTimes+"次重试！");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+            }while (++retryTimes<6);
             CarPJDetail cd=new CarPJDetail();
             //TODO 产品ID
             String type[]=url.split("-");

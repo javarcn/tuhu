@@ -3,6 +3,7 @@ package com.util;
 import com.domain.*;
 import com.google.gson.*;
 import com.service.GetBaoYangList;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -17,6 +18,7 @@ import java.util.Map;
  * Created by hwc on 2016/9/20.
  */
 public class GetBaoyangItem {
+    public static Logger logger=Logger.getLogger(GetBaoyangItem.class);
 
 
     /**
@@ -50,12 +52,24 @@ public class GetBaoyangItem {
         data.put("vehicle",vehicle);
         data.put("baoyangType",carPJ.getBaoYangType());
         data.put("pid",carPJ.getPJ_ID());
-
-        Document document=Jsoup.connect(url).timeout(6000).userAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36").ignoreContentType(true).data(data).post();
-
-        Elements elements=document.getElementsByTag("body");
-        String json=elements.get(0).text();
-
+        int retryTimes=1;
+        String json=null;
+        do {
+            try {
+                Document document=Jsoup.connect(url).timeout(6000).userAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36").ignoreContentType(true).data(data).post();
+                Elements elements=document.getElementsByTag("body");
+                json=elements.get(0).text();
+                break;
+            }catch (Exception e){
+                logger.debug("访问出现"+url+"异常,1S后进行第"+retryTimes+"次重试！");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+        }while (++retryTimes<6);
         //TODO 获取数据
         Gson gson=new Gson();
         List<CarPJ> carPjList=new ArrayList<CarPJ>();
