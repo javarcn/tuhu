@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class Httpget {
-//    public static Logger logger=Logger.getLogger(Httpget.class);
+    public static Logger logger=Logger.getLogger(Httpget.class);
 	
 	public static String getHtml(String url) throws IOException{
         String html=null;
@@ -37,7 +37,7 @@ public class Httpget {
                 }
 
             } catch (Exception e) {
-//                logger.debug("访问出现"+url+"异常,1S后进行第"+retryTimes+"次重试！");
+                logger.debug("访问出现"+url+"异常,1S后进行第"+retryTimes+"次重试！");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {

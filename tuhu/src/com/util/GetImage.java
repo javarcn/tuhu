@@ -26,45 +26,54 @@ public class GetImage {
         for (CarPJDetail car : carPJDetailList) {
             String pid = car.getSku_pid().replace("/", "-");
             for (int i = 0; i < car.getBigImg().size(); i++) {
-                byte[] btImg = getImageFromNetByUrl(car.getBigImg().get(i));
-                if (null != btImg && btImg.length > 0) {
-                    String fileName = "D:\\tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\big\\" + pid + "_" + (i + 1) + ".jpg";
-                    writeImageToDisk(btImg, fileName);
-                } else {
-                    logger.error("图片获取失败：" + car.getBigImg().get(i) + "——" + pid);
+                String fileName = "C:\\tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\big\\" + pid + "_" + (i + 1) + ".jpg";
+                File file=IsPathExist(fileName);
+                if(file!=null){
+                    byte[] btImg = getImageFromNetByUrl(car.getBigImg().get(i));
+                    if (null != btImg && btImg.length > 0) {
+                        writeImageToDisk(btImg, file);
+                    } else {
+                        logger.error("图片获取失败：" + car.getBigImg().get(i) + "——" + pid);
+                    }
+                }else {
+                    logger.debug("该图片已存在");
+
                 }
+
             }
             for (int j = 0; j < car.getDetailImg().size(); j++) {
-                byte[] btImg = getImageFromNetByUrl(car.getDetailImg().get(j));
-                if (null != btImg && btImg.length > 0) {
-                    String fileName = "D:\\tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\detail\\" + pid + "_" + (j + 1) + ".jpg";
-                    writeImageToDisk(btImg, fileName);
-                } else {
-                    logger.error("图片获取失败：" + car.getDetailImg().get(j) + "——" + pid);
+                String fileName = "C:\\tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\detail\\" + pid + "_" + (j + 1) + ".jpg";
+                File file=IsPathExist(fileName);
+                if(file !=null){
+                    byte[] btImg = getImageFromNetByUrl(car.getDetailImg().get(j));
+                    if (null != btImg && btImg.length > 0) {
+                        writeImageToDisk(btImg, file);
+                    } else {
+                        logger.error("图片获取失败：" + car.getDetailImg().get(j) + "——" + pid);
+                    }
+                }else {
+                    logger.debug("该图片已存在");
+
                 }
+
             }
         }
     }
 
-    /**
-     * 将图片写入到磁盘
-     *
-     * @param img 图片数据流
-     */
-    public static void writeImageToDisk(byte[] img, String destFileName) {
+    public static File IsPathExist(String destFileName){
         try {
             File file = new File(destFileName);
             if (file.exists()) {
-                return;
+                return null;
             }
             if (destFileName.endsWith(File.separator)) {
-                return;
+                return null;
             }
             //判断目标文件所在的目录是否存在
             if (!file.getParentFile().exists()) {
                 //如果目标文件所在的目录不存在，则创建父目录
                 if (!file.getParentFile().mkdirs()) {
-                    return;
+                    return null;
                 }
             }
             //创建目标文件
@@ -77,8 +86,22 @@ public class GetImage {
             } catch (IOException e) {
                 e.printStackTrace();
                 logger.error("创建单个文件" + destFileName + "失败！" + e.getMessage());
-                return;
+                return null;
             }
+            return file;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 判断该图片是否存在
+     *
+     * @param img 图片数据流
+     */
+    public static void writeImageToDisk(byte[] img, File file) {
+        try {
             FileOutputStream fops = new FileOutputStream(file);
             fops.write(img);
             fops.flush();
@@ -137,7 +160,7 @@ public class GetImage {
                 try {
                     b = String.valueOf(c).getBytes("utf-8");
                 } catch (Exception ex) {
-                    System.out.println(ex);
+                    logger.error(ex);
                     b = new byte[0];
                 }
                 for (int j = 0; j < b.length; j++) {
@@ -166,7 +189,6 @@ public class GetImage {
             outStream.write(buffer, 0, len);
         }
         inStream.close();
-        outStream.close();
         return outStream.toByteArray();
     }
 }

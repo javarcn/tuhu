@@ -60,7 +60,7 @@ public class PraseProductDetail {
                     document= Jsoup.connect(urlString).timeout(60000).get();
                     break;
                 }catch (Exception e){
-                    logger.debug("访问出现"+url+"异常,1S后进行第"+retryTimes+"次重试！");
+                    logger.debug("访问出现"+urlString+"异常,1S后进行第"+retryTimes+"次重试！");
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e1) {
@@ -75,9 +75,13 @@ public class PraseProductDetail {
             String cid=type[0]+"-"+type[1];
             cd.setCid(cid);
             //TODO 抓取产品名称
-            Element DisplayName=document.getElementsByClass("DisplayName").get(0);
-            cd.setName(DisplayName.text());
-            cd.setSku_name(DisplayName.text());
+            Elements elements=document.getElementsByClass("DisplayName");
+            if(elements.size()>0){
+                Element DisplayName=document.getElementsByClass("DisplayName").get(0);
+                cd.setName(DisplayName.text());
+                cd.setSku_name(DisplayName.text());
+            }
+
             //TODO 未抓取列：SKU名称、产品详情、产品颜色、是否可销售、以及产品颜色
             //TODO 抓取标题
             Elements titles=document.getElementsByClass("bread_navi").get(0).getElementsByTag("a");

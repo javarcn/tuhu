@@ -23,37 +23,34 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //TODO 1.根据接口获取车的型号参数
-//        String brand="F - 丰田";
-//        String vehicleId="VE-FJTKLLYSJT";
-//        String paiLiang="2.0L";
-//        String nian="2011";
-//        String tid="";
-        long st=System.currentTimeMillis();
-/*        Car car=new Car();
-        car.setBrand("F - 丰田");
-        car.setBrand1("丰田");
-        car.setBrand2("一汽丰田");
-        car.setSeriesName("卡罗拉");
-        car.setPaiLiang("2.0L");
-        car.setYear("2011");
-        car.setCarID("VE-FJTKLLYSJT");
-        car.setCarModel("");
-        car.setTid("");
-        car.setProperty("");
-        car.setPropertyValue("");*/
+//        long st=System.currentTimeMillis();
+//        Car car=new Car();
+//        car.setBrand("F - 丰田");
+//        car.setBrand1("丰田");
+//        car.setBrand2("一汽丰田");
+//        car.setSeriesName("卡罗拉");
+//        car.setPaiLiang("2.0L");
+//        car.setYear("2011");
+//        car.setCarID("VE-FJTKLLYSJT");
+//        car.setCarModel("");
+//        car.setTid("");
+//        car.setProperty("");
+//        car.setPropertyValue("");
 //        PJ pj= GetBaoyangItem.getBaoyangItem(car);
 //        PraseProductDetail.praseAllItem(pj.getCarPJList());
 //        List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
 //        pj.setCarPjDetailList(list);
-//        WriteExcel.writeDataToExcel(pj);
+//        String filepath="C:\\tuhu\\data\\"+car.getBrand1()+"\\"+car.getSeriesName()+"\\"+car.getPaiLiang()+"\\"+car.getYear()+"\\"+car.getBrand1()+"_"+car.getSeriesName()+"_"+car.getPaiLiang()+"_"+car.getYear()+".xls";
+//        WriteExcel.writeDataToExcel(pj,filepath);
 //        System.out.println("数据成功写入excel！");
 //        GetImage.getImgData(list);
 //        System.out.println("商品图片抓取完毕！！");
 //        long ed=System.currentTimeMillis();
 //        System.out.println("整个过程耗时："+(ed-st)/1000+"秒");
 
-        //TODO test
-/*        for(String oneBrand:GetBrand.BrandList()){
+        //TODO main
+        long st=System.currentTimeMillis();
+        for(String oneBrand:GetBrand.BrandList()){
            List<Brand> brandList=SelectCarName.CarNameList(oneBrand);
             for(Brand brand:brandList){
                 List<String> paiLiangList=SelectPaiLiang.PaiLiangList(brand.getProductID());
@@ -78,37 +75,68 @@ public class Main {
                         List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
                         pj.setCarPjDetailList(list);
 
-                        String filepath="D:\\tuhu\\data\\"+brand1+"\\"+brand.getBrandType()+"\\"+paiLiang+"\\"+year+"\\"+brand1+"_"+brand.getBrandType()+"_"+paiLiang+"_"+year+".xls";
+                        String filepath="C:\\tuhu\\data\\"+brand1+"\\"+brand.getCarName()+"\\"+paiLiang+"\\"+year+"\\"+brand1+"_"+brand.getCarName()+"_"+paiLiang+"_"+year+".xls";
                         WriteExcel.writeDataToExcel(pj,filepath);
                         GetImage.getImgData(list);
                     }
                 }
             }
-        }*/
-//        Httpget.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=VE-DFFXSX6&PaiLiang=1.6L");
-        //TODO test 东风风行
-
-
+        }
+            long ed=System.currentTimeMillis();
+            System.out.println("本次抓取数据一共耗时："+(ed-st)/1000+"秒");
+//
+//                    //TODO test 本田
+//                    long st=System.currentTimeMillis();
+//                    Car car=new Car();
+//                    car.setBrand("B - 本田");
+//                    car.setBrand1("本田");
+//                    car.setBrand2("广州本田");
+//                    car.setSeriesName("雅阁");
+//                    car.setPaiLiang("2.0L");
+//                    car.setYear("2015");
+//                    car.setCarID("VE-HNDG07AY");
+//                    car.setCarModel("");
+//                    car.setTid("");
+//                    car.setProperty("");
+//                    car.setPropertyValue("");
+//
+//                    PJ pj= GetBaoyangItem.getBaoyangItem(car);
+//                    PraseProductDetail.praseAllItem(pj.getCarPJList());
+//                    List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
+//                    pj.setCarPjDetailList(list);
+//
+//                    String filepath="C:\\tuhu\\data\\"+car.getBrand1()+"\\"+car.getSeriesName()+"\\"+car.getPaiLiang()+"\\"+car.getYear()+"\\"+car.getBrand1()+"_"+car.getSeriesName()+"_"+car.getPaiLiang()+"_"+car.getYear()+".xls";
+//                    WriteExcel.writeDataToExcel(pj,filepath);
+//                    GetImage.getImgData(list);
+//
+//                    long ed=System.currentTimeMillis();
+//                    System.out.println("本次抓取数据一共耗时："+(ed-st)/1000+"秒");//
+//                    //TODO test 日产
+/*                    long st=System.currentTimeMillis();
                     Car car=new Car();
-                    car.setBrand("B - 本田");
-                    car.setBrand1("本田");
-                    car.setBrand2("广州本田");
-                    car.setSeriesName("雅阁");
-                    car.setPaiLiang("2.0L");
-                    car.setYear("2015");
-                    car.setCarID("VE-HNDG07AY");
+                    car.setBrand("R - 日产");
+                    car.setBrand1("日产");
+                    car.setBrand2("东风日产");
+                    car.setSeriesName("骐达");
+                    car.setPaiLiang("1.6L");
+                    car.setYear("2011");
+                    car.setCarID("VE-FENG07AZ");
+                    car.setCarModel("");
+                    car.setTid("");
+                    car.setProperty("");
+                    car.setPropertyValue("");
 
                     PJ pj= GetBaoyangItem.getBaoyangItem(car);
                     PraseProductDetail.praseAllItem(pj.getCarPJList());
                     List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
                     pj.setCarPjDetailList(list);
 
-                    String filepath="D:\\tuhu\\data\\"+car.getBrand1()+"\\"+car.getSeriesName()+"\\"+car.getPaiLiang()+"\\"+car.getYear()+"\\"+car.getBrand1()+"_"+car.getSeriesName()+"_"+car.getPaiLiang()+"_"+car.getYear()+".xls";
+                    String filepath="C:\\tuhu\\data\\"+car.getBrand1()+"\\"+car.getSeriesName()+"\\"+car.getPaiLiang()+"\\"+car.getYear()+"\\"+car.getBrand1()+"_"+car.getSeriesName()+"_"+car.getPaiLiang()+"_"+car.getYear()+".xls";
                     WriteExcel.writeDataToExcel(pj,filepath);
                     GetImage.getImgData(list);
 
                     long ed=System.currentTimeMillis();
-                    System.out.println("本次抓取数据一共耗时："+(ed-st)/1000+"秒");
+                    System.out.println("本次抓取数据一共耗时："+(ed-st)/1000+"秒");*/
 
     }
 

@@ -4,6 +4,7 @@ import com.domain.*;
 import com.google.gson.*;
 import com.service.GetBaoYangList;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -43,9 +44,15 @@ public class GetBaoyangItem {
 */
 
         //TODO post请求数据方法1：jsoup
-//        String vehicle="{\"Brand\":\"%s\",\"FuelType\":\"\",\"Nian\":\"%s\",\"OnRoadTime\":\"\",\"PaiLiang\":\"%s\",\"Properties\":[],\"SalesName\":\"\",\"Tid\":\"%s\",\"VehicleId\":\"%s\",\"Vehicle\":\"\"}";
-        String vehicle="{\"Brand\":\"%s\",\"FuelType\":\"\",\"Nian\":\"%s\",\"OnRoadTime\":\"\",\"PaiLiang\":\"%s\",\"Properties\":[{\"Property\":\"%s\",\"PropertyValue\":\"%s\"}],\"SalesName\":\"\",\"Tid\":\"%s\",\"VehicleId\":\"%s\",\"Vehicle\":\"\"}";
-        vehicle=String.format(vehicle,carPJ.getCar().getBrand(),carPJ.getCar().getYear(),carPJ.getCar().getPaiLiang(),carPJ.getCar().getProperty(),carPJ.getCar().getPropertyValue(),carPJ.getCar().getTid(),carPJ.getCar().getCarID());
+        String vehicle=null;
+        if(carPJ.getCar().getProperty()==null || "".equals(carPJ.getCar().getProperty())){
+                vehicle="{\"Brand\":\"%s\",\"FuelType\":\"\",\"Nian\":\"%s\",\"OnRoadTime\":\"\",\"PaiLiang\":\"%s\",\"Properties\":[],\"SalesName\":\"\",\"Tid\":\"%s\",\"VehicleId\":\"%s\",\"Vehicle\":\"\"}";
+                vehicle=String.format(vehicle,carPJ.getCar().getBrand(),carPJ.getCar().getYear(),carPJ.getCar().getPaiLiang(),carPJ.getCar().getTid(),carPJ.getCar().getCarID());
+
+        }else {
+                vehicle="{\"Brand\":\"%s\",\"FuelType\":\"\",\"Nian\":\"%s\",\"OnRoadTime\":\"\",\"PaiLiang\":\"%s\",\"Properties\":[{\"Property\":\"%s\",\"PropertyValue\":\"%s\"}],\"SalesName\":\"\",\"Tid\":\"%s\",\"VehicleId\":\"%s\",\"Vehicle\":\"\"}";
+                vehicle=String.format(vehicle,carPJ.getCar().getBrand(),carPJ.getCar().getYear(),carPJ.getCar().getPaiLiang(),carPJ.getCar().getProperty(),carPJ.getCar().getPropertyValue(),carPJ.getCar().getTid(),carPJ.getCar().getCarID());
+        }
         String url="http://by.tuhu.cn/change/ChangeProduct.html";
 
         Map<String,String> data=new HashMap<String,String>();
@@ -74,8 +81,9 @@ public class GetBaoyangItem {
         Gson gson=new Gson();
         List<CarPJ> carPjList=new ArrayList<CarPJ>();
 
-        JsonParser jsonParser=new JsonParser();
-        JsonObject jsonObject= (JsonObject) jsonParser.parse(json);
+//        JsonParser jsonParser=new JsonParser();
+//        JsonObject jsonObject= (JsonObject) jsonParser.parse(json);
+        JsonObject jsonObject= gson.fromJson(json,JsonObject.class);
 
         JsonObject jsonObject1= (JsonObject) jsonObject.get("Data");
         for(int i=1;i<=jsonObject1.size();i++){
