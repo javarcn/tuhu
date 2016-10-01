@@ -3,6 +3,7 @@ package com.util;
 import com.domain.CarPJ;
 import com.domain.CarPJDetail;
 import com.domain.PJ;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by hwc on 2016/9/20.
  */
 public class WriteExcel {
+    public static Logger logger=Logger.getLogger(WriteExcel.class);
     /**
      *  本地生成excel
      */
@@ -22,6 +24,7 @@ public class WriteExcel {
         try {
             File file = new File(filepath);
             if(file.exists()) {
+                logger.debug(filepath+"已存在");
                 return ;
             }
             if (filepath.endsWith(File.separator)) {
@@ -39,12 +42,11 @@ public class WriteExcel {
                 if (file.createNewFile()) {
 
                 } else {
-                    System.out.println("创建单个文件" + filepath + "失败！");
-
+                    logger.debug("创建单个文件" + filepath + "失败！");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("创建单个文件" + filepath + "失败！" + e.getMessage());
+                logger.debug("创建单个文件" + filepath + "失败！" + e.getMessage());
                 return ;
             }
 
@@ -211,9 +213,11 @@ public class WriteExcel {
             } catch (IOException e) {
                 e.printStackTrace();
                 file.delete();
+                logger.debug("创建文件" + filepath + "失败！" + e.getMessage());
             }
         }catch (Exception e1){
             e1.printStackTrace();
+            logger.debug("创建文件" + filepath + "失败！" + e1.getMessage());
         }
     }
 }

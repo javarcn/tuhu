@@ -26,7 +26,7 @@ public class GetImage {
         for (CarPJDetail car : carPJDetailList) {
             String pid = car.getSku_pid().replace("/", "-");
             for (int i = 0; i < car.getBigImg().size(); i++) {
-                String fileName = "C:\\tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\big\\" + pid + "_" + (i + 1) + ".jpg";
+                String fileName = "tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\big\\" + pid + "_" + (i + 1) + ".jpg";
                 File file=IsPathExist(fileName);
                 if(file!=null){
                     byte[] btImg = getImageFromNetByUrl(car.getBigImg().get(i));
@@ -42,7 +42,7 @@ public class GetImage {
 
             }
             for (int j = 0; j < car.getDetailImg().size(); j++) {
-                String fileName = "C:\\tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\detail\\" + pid + "_" + (j + 1) + ".jpg";
+                String fileName = "tuhu\\picture\\" + car.getCid() + "\\" + pid + "\\detail\\" + pid + "_" + (j + 1) + ".jpg";
                 File file=IsPathExist(fileName);
                 if(file !=null){
                     byte[] btImg = getImageFromNetByUrl(car.getDetailImg().get(j));
@@ -53,7 +53,6 @@ public class GetImage {
                     }
                 }else {
                     logger.debug("该图片已存在");
-
                 }
 
             }
