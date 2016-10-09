@@ -18,7 +18,7 @@ public class Main {
     public static Logger logger=Logger.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException {
-        logger.debug("程序启动！数据爬取开始！");
+/*        logger.debug("程序启动！数据爬取开始！");
         long st=System.currentTimeMillis();
         for(String oneBrand:GetBrand.BrandList()){
            List<Brand> brandList=SelectCarName.CarNameList(oneBrand);
@@ -59,7 +59,35 @@ public class Main {
             }
         }
             long ed=System.currentTimeMillis();
-            logger.debug("全部数据抓取完毕！一共耗时："+(ed-st)/1000+"秒");
+            System.out.println("本次抓取数据一共耗时："+(ed-st)/1000+"秒");*/
+
+                    //TODO test 本田
+                    long st=System.currentTimeMillis();
+                    Car car=new Car();
+                    car.setBrand("A - 奥迪");
+                    car.setBrand1("奥迪");
+                    car.setBrand2("一汽大众奥迪");
+                    car.setSeriesName("A3");
+                    car.setPaiLiang("1.4T(35TFSI)");
+                    car.setYear("2016");
+                    car.setCarID("VE-AADA3AD");
+                    car.setCarModel("");
+                    car.setTid("");
+                    car.setProperty("");
+                    car.setPropertyValue("");
+
+                    PJ pj= GetBaoyangItem.getBaoyangItem(car);
+                    PraseProductDetail.praseAllItem(pj.getCarPJList());
+                    List<CarPJDetail> list=PraseProductDetail.getCarPJDetailList();
+                    pj.setCarPjDetailList(list);
+
+                    String filepath="C:\\tuhu\\data\\"+car.getBrand1()+"\\"+car.getSeriesName()+"\\"+car.getPaiLiang()+"\\"+car.getYear()+"\\"+car.getBrand1()+"_"+car.getSeriesName()+"_"+car.getPaiLiang()+"_"+car.getYear()+".xls";
+                    WriteExcel.writeDataToExcel(pj,filepath);
+//                    GetImage.getImgData(list);
+
+                    long ed=System.currentTimeMillis();
+                    System.out.println("本次抓取数据一共耗时："+(ed-st)/1000+"秒");
+
     }
 
 
