@@ -15,10 +15,15 @@ import java.util.List;
  */
 public class GetBrand {
 
-    public static List<String> BrandList() throws IOException {
+    public static List<String> BrandList() {
 
         List<String> list=new ArrayList<String>();
-        String json= Httpget.getHtml("http://item.tuhu.cn/Car/GetCarBrands2");
+        String json= null;
+        try {
+            json = Httpget.getHtml("http://item.tuhu.cn/Car/GetCarBrands2");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json,JsonObject.class);
         String letter[]={"A","B","C","D","F","G","H","J","K","L","M","N","O","P","Q","R","S","T","W","X","Y","Z"};

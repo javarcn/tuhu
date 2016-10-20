@@ -1,10 +1,9 @@
 package com.main;
 
 import com.domain.*;
-import com.service.GetBrand;
-import com.service.SelectCarName;
-import com.service.SelectPaiLiang;
-import com.service.SelectYear;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.service.*;
 import com.util.*;
 import org.apache.log4j.Logger;
 
@@ -19,10 +18,9 @@ import java.util.List;
 public class CarModel {
     public static Logger logger= Logger.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException {
-        logger.info("程序启动！数据爬取开始！");
+    public static void main(String[] args){
+        logger.info("程序启动！车型汇总数据爬取开始！");
         long st=System.currentTimeMillis();
-
         List<CarPJ> carModelList=new ArrayList<CarPJ>();
         List<String> ss = GetBrand.BrandList();
         for(int i = 0;i <ss.size();i++){
@@ -44,8 +42,10 @@ public class CarModel {
                             car.setCarID(brand.getProductID());
                             car.setPaiLiang(paiLiang);
                             car.setYear(year);
+                            long s=System.currentTimeMillis();
+                            logger.info("开始抓取:" + brand1 + "-" + brand.getCarName() + "-" + paiLiang + "-" + year + "车型汇总数据！");
                             try {
-                                PJ pj= GetBaoyangItem.getBaoyangItem(car);
+                                PJ pj= getAllCarModel(car);
                                 if(pj.getProperty()==null){
                                     car.setCarModel("全适配");
                                     CarPJ carPJ=new CarPJ();
@@ -54,9 +54,17 @@ public class CarModel {
                                 }else {
                                     List<Values> valuesList=pj.getProperty().getValues();
                                     for(Values values:valuesList){
-                                        car.setCarModel(values.getDisplayValue());
+                                        Car car1=new Car();
+                                        car1.setBrand(oneBrand);
+                                        car1.setBrand2(brand.getBrandType());
+                                        car1.setBrand1(brand1);
+                                        car1.setSeriesName(brand.getCarName());
+                                        car1.setCarID(brand.getProductID());
+                                        car1.setPaiLiang(paiLiang);
+                                        car1.setYear(year);
+                                        car1.setCarModel(values.getDisplayValue());
                                         CarPJ carPJ=new CarPJ();
-                                        carPJ.setCar(car);
+                                        carPJ.setCar(car1);
                                         carModelList.add(carPJ);
                                     }
                                 }
@@ -64,12 +72,23 @@ public class CarModel {
                                 logger.error("爬取错误",e);
                                 System.exit(1);
                             }
+                            long e=System.currentTimeMillis();
+                            logger.info(brand1+"-"+brand.getCarName()+"-"+paiLiang+"-"+year+"车型汇总完毕！共耗时"+(e-s)/1000+"秒");
                         }
                     }
                 }
             }
 
         }
+
+        long ed=System.currentTimeMillis();
+        logger.info("车型汇总数据抓取完毕！一共耗时：" + (ed - st) / 1000 + "秒");
+
+
+        long start=System.currentTimeMillis();
+        logger.info("车型数据汇总开始写入excel");
+
+
         PJ pj=new PJ();
         pj.setCarPJList(carModelList);
         String f1="tuhu" + File.separator + "data" + File.separator + "车型汇总" + ".xlsx";
@@ -81,8 +100,8 @@ public class CarModel {
             System.exit(1);
         }
 
-        long ed=System.currentTimeMillis();
-        logger.info("车型汇总完毕！一共耗时：" + (ed - st) / 1000 + "秒");
+        long end=System.currentTimeMillis();
+        logger.info("车型汇总写入完毕！一共耗时：" + (end - start) / 1000 + "秒");
     }
 
     private static boolean deleteDir(File dir) {
@@ -98,5 +117,34 @@ public class CarModel {
         // 目录此时为空，可以删除
         return dir.delete();
     }
+
+    public static PJ getAllCarModel(Car car){
+        PJ pj=new PJ();
+        //TODO 获取该车型所有保养品
+        String html = GetBaoYangList.getBaoyang(car);
+        Gson gson=new Gson();
+        JsonArray jsonArray=gson.fromJson(html,JsonArray.class);
+
+        //TODO 配件关系表
+        List<CarPJ> carPjList=new ArrayList<CarPJ>();
+        Property property = null;
+        for(int i=0;i<jsonArray.size();i++) {
+            Baoyang baoyang = gson.fromJson(jsonArray.get(i), Baoyang.class);
+            List<BaoyangItem> list = baoyang.getItems();
+            for (BaoyangItem ls : list) {
+                List<Items> itemsList = ls.getItems();
+                for (Items items : itemsList) {
+                    //出现不兼容，记录Property
+                    if (items.getProperty() != null) {
+                        property = items.getProperty();
+                    }
+                }
+            }
+        }
+        pj.setProperty(property);
+        pj.setCarPJList(carPjList);
+        return pj;
+    }
+
 
 }

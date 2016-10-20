@@ -31,6 +31,12 @@ public class PraseProductDetail {
         for(CarPJ carPJ:carPJList){
             if(!PidList.contains(carPJ.getUrl())){
              CarPJDetail carPJDetail=praseOneItemDetail(carPJ.getUrl());
+                if(carPJDetail== null){
+                    continue;
+                }
+                if(carPJDetail.getUrlList()==null){
+                    continue;
+                }
                 num=carPJDetail.getUrlList().size();
                 while (num>0){
                     CarPJDetail carPJDetail1=praseOneItemDetail(carPJDetail.getUrlList().get(0));

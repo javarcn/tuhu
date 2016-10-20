@@ -15,9 +15,14 @@ import java.util.List;
  */
 public class SelectYear {
 
-    public static List<String> YearList(String VehicleID,String PaiLiang) throws IOException {
+    public static List<String> YearList(String VehicleID,String PaiLiang)   {
         List<String> list=new ArrayList<String>();
-        String json= Httpget.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=" + VehicleID + "&PaiLiang=" + PaiLiang);
+        String json= null;
+        try {
+            json = Httpget.getHtml("http://item.tuhu.cn/Car/SelectVehicle?VehicleID=" + VehicleID + "&PaiLiang=" + PaiLiang);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json,JsonObject.class);
         JsonArray jsonArray= (JsonArray) jsonObject.get("Nian");

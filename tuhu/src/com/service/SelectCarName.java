@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.util.Httpget;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,20 @@ import java.util.List;
  */
 public class SelectCarName {
 
-    public static List<Brand> CarNameList(String brand) throws IOException {
-        String url= java.net.URLEncoder.encode(brand,"utf-8");
+    public static List<Brand> CarNameList(String brand)  {
+        String url= null;
+        try {
+            url = java.net.URLEncoder.encode(brand,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         List<Brand> list=new ArrayList<Brand>();
-        String json = Httpget.getHtml("http://item.tuhu.cn/Car/SelOneBrand?Brand=" + url);
+        String json = null;
+        try {
+            json = Httpget.getHtml("http://item.tuhu.cn/Car/SelOneBrand?Brand=" + url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Gson gson=new Gson();
         JsonObject jsonObject=gson.fromJson(json, JsonObject.class);
         JsonArray jsonArray= (JsonArray) jsonObject.get("OneBrand");
